@@ -11,7 +11,7 @@ jobs:
   prepare:
     name: Prepare
     if: ${{ github.actor != 'dependabot[bot]' }}
-    uses: ./prepare.yml
+    uses: ./.github/workflows/prepare.yml
 
   build:
     name: Build

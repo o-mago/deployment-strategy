@@ -69,7 +69,7 @@ jobs:
     - name: Merge master back to dev
       run: |
           git fetch --unshallow
-          git checkout main
+          git checkout prod
           git pull
-          git merge --no-ff prod -m "auto merge prod back to main"
+          git merge --no-ff main -m "auto merge prod back to main"
           git push

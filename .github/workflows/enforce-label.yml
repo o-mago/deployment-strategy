@@ -2,9 +2,11 @@ name: Enforce PR labels
 
 on:
   pull_request:
-    types: [labeled, unlabeled, opened, edited, synchronize]
+    types: [opened]
 jobs:
   enforce-label:
     runs-on: ubuntu-latest
     steps:
     - uses: yogevbd/enforce-label-action@2.1.0
+      with:
+        REQUIRED_LABELS_ANY: "💣 Breaking Change,🚀 Feature,🐛 Bugfix,🔥 Hotfix,📚 Documentation,🏗️ Refactor,🧪 Test,🚨 Security,☁️ CI"

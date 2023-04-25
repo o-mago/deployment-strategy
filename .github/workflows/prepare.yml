@@ -1,0 +1,57 @@
+name: prepare-deploy
+
+on:
+  workflow_call:
+    outputs:
+      homolog:
+        description: "Boolean to activate homolog build/deploy"
+        value: ${{ jobs.prepare.outputs.homolog }}
+      sandbox:
+        description: "Boolean to activate sandbox build/deploy"
+        value: ${{ jobs.prepare.outputs.sandbox }}
+      production:
+        description: "Boolean to activate production build/deploy"
+        value: ${{ jobs.prepare.outputs.production }}
+      tag:
+        description: "TAG"
+        value: ${{ jobs.prepare.outputs.tag }}
+jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    outputs:
+      homolog: ${{ steps.set-vars.outputs.homolog }}
+      sandbox: ${{ steps.set-vars.outputs.sandbox }}
+      production: ${{ steps.set-vars.outputs.production }}
+      tag: ${{ steps.set-vars.outputs.tag }}
+    steps:
+      - name: Set vars
+        id: set-vars
+        run: |
+          homolog="false"
+          sandbox="false"
+          production="false"
+          tag=""
+          
+          if [[ ${{ github.event_name == 'push' }} ]]; then
+            homolog="true"
+            tag="main"
+          fi
+          
+          if [[ ${{ github.event.action == 'published' && github.event.release.prerelease }} ]]; then
+            sandbox="true"
+          fi
+
+          if [[ ${{ github.event.action == 'published' && github.event.release.prerelease == false }} ]]; then
+            production="true"
+          fi
+          
+          echo "homolog=$homolog" >> $GITHUB_OUTPUT
+          echo "sandbox=$sandbox" >> $GITHUB_OUTPUT
+          echo "production=$production" >> $GITHUB_OUTPUT
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+          
+          echo "Homolog: $homolog"
+          echo "Sandbox: $sandbox"
+          echo "Production: $production"
+          echo "Tag: $tag"

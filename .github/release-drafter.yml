@@ -1,0 +1,52 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+prerelease: true
+categories:
+  - title: '💣 Breaking Change'
+    labels:
+      - '💣 breaking change'
+  - title: '🚀 Feature'
+    labels:
+      - '🚀 feature'
+  - title: '🐛 Bugfix'
+    labels:
+      - '🐛 bugfix'
+  - title: '🔥 Hotfix'
+    labels:
+      - '🔥 hotfix'
+  - title: '📚 Documentation'
+    labels:
+      - '📚 documentation'
+  - title: '🏗️ Refactor'
+    labels:
+      - '🏗️ refactor'
+  - title: '🧪 Test'
+    labels:
+      - '🧪 test'
+  - title: '🚨 Security'
+    labels:
+      - '🚨 security'
+  - title: '☁️ CI'
+    labels:
+      - '☁️ CI'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+version-resolver:
+  major:
+    labels:
+      - '💣 breaking change'
+  minor:
+    labels:
+      - '🚀 feature'
+  patch:
+    labels:
+      - '🐛 bugfix'
+      - '🔥 hotfix'
+      - '📚 documentação'
+      - '🏗️ refatoração'
+      - '🧪 teste'
+      - '🚨 segurança'
+      - '☁️ CI'
+  default: patch
+template: |
+  $CHANGES

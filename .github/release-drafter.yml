@@ -4,7 +4,7 @@ prerelease: true
 categories:
   - title: '💣 Breaking Change'
     labels:
-      - '💣 breaking change'
+      - '💣 Breaking change'
   - title: '🚀 Feature'
     labels:
       - '🚀 Feature'

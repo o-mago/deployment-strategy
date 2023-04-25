@@ -29,8 +29,8 @@ jobs:
     needs: [ prepare, build ]
     if: needs.prepare.outputs.homolog == 'true'
     steps:
-      - name: Set vars
-        id: set-vars
+      - name: Deploy Homolog
+        id: deploy-homolog
         run: |
           echo "deploy homolog ${{ needs.prepare.outputs.tag }}"
 
@@ -40,10 +40,10 @@ jobs:
     needs: [ prepare, build ]
     if: needs.prepare.outputs.sandbox == 'true'
     steps:
-      - name: Set vars
-        id: set-vars
+      - name: Deploy Sandbox
+        id: deploy-sandbox
         run: |
-          echo "deploy homolog ${{ needs.prepare.outputs.tag }}"
+          echo "deploy sandbox ${{ needs.prepare.outputs.tag }}"
 
   production:
     name: Production
@@ -51,10 +51,10 @@ jobs:
     needs: [ prepare, build ]
     if: needs.prepare.outputs.production == 'true'
     steps:
-      - name: Set vars
-        id: set-vars
+      - name: Deploy Prod
+        id: deploy-prod
         run: |
-          echo "deploy homolog ${{ needs.prepare.outputs.tag }}"
+          echo "deploy prod ${{ needs.prepare.outputs.tag }}"
 
   auto-merge-prod:
     name: Auto merge prod back to main
@@ -66,7 +66,7 @@ jobs:
       run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
-    - name: Merge master back to dev
+    - name: Merge prod back to main
       run: |
           git fetch --unshallow
           git checkout main

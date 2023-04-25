@@ -7,25 +7,25 @@ categories:
       - '💣 breaking change'
   - title: '🚀 Feature'
     labels:
-      - '🚀 feature'
+      - '🚀 Feature'
   - title: '🐛 Bugfix'
     labels:
-      - '🐛 bugfix'
+      - '🐛 Bugfix'
   - title: '🔥 Hotfix'
     labels:
-      - '🔥 hotfix'
+      - '🔥 Hotfix'
   - title: '📚 Documentation'
     labels:
-      - '📚 documentation'
+      - '📚 Documentation'
   - title: '🏗️ Refactor'
     labels:
-      - '🏗️ refactor'
+      - '🏗️ Refactor'
   - title: '🧪 Test'
     labels:
-      - '🧪 test'
+      - '🧪 Test'
   - title: '🚨 Security'
     labels:
-      - '🚨 security'
+      - '🚨 Security'
   - title: '☁️ CI'
     labels:
       - '☁️ CI'
@@ -34,18 +34,18 @@ change-title-escapes: '\<*_&'
 version-resolver:
   major:
     labels:
-      - '💣 breaking change'
+      - '💣 Breaking change'
   minor:
     labels:
-      - '🚀 feature'
+      - '🚀 Feature'
   patch:
     labels:
-      - '🐛 bugfix'
-      - '🔥 hotfix'
-      - '📚 documentação'
-      - '🏗️ refatoração'
-      - '🧪 teste'
-      - '🚨 segurança'
+      - '🐛 Bugfix'
+      - '🔥 Hotfix'
+      - '📚 Documentation'
+      - '🏗️ Refactor'
+      - '🧪 Test'
+      - '🚨 Security'
       - '☁️ CI'
   default: patch
 template: |

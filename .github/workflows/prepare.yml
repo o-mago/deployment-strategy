@@ -33,16 +33,16 @@ jobs:
           production="false"
           tag=""
           
-          if [[ ${{ github.event_name == 'push' }} ]]; then
+          if [[ ${{ github.event_name }} == 'push' ]]; then
             homolog="true"
             tag="main"
           fi
           
-          if [[ ${{ github.event.action == 'published' && github.event.release.prerelease }} ]]; then
+          if [[ ${{ github.event.action }} == 'published' && ${{ github.event.release.prerelease }} ]]; then
             sandbox="true"
           fi
 
-          if [[ ${{ github.event.action == 'published' && github.event.release.prerelease == false }} ]]; then
+          if [[ ${{ github.event.action }} == 'published' && ${{ github.event.release.prerelease == false }} ]]; then
             production="true"
           fi
           

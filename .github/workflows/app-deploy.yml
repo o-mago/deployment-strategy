@@ -59,8 +59,7 @@ jobs:
   auto-merge-prod:
     name: Auto merge prod back to main
     runs-on: ubuntu-latest
-    needs: [ prepare, build, prod ]
-    if: needs.prepare.outputs.production == 'true'
+    needs: [ prepare, build, production ]
     steps:
     - uses: actions/checkout@v2
     - name: Set Git config

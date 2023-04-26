@@ -1,6 +1,6 @@
 # Strategy
 
-![schema](https://user-images.githubusercontent.com/23153316/234588896-5185522d-bca0-4e48-9e63-59e5e97c4598.png)
+![schema](https://user-images.githubusercontent.com/23153316/234700090-878a22d5-ad4c-4584-ab24-623e5ca8e324.png)
 
 ## About
 This deployment strategy is based on the github releases lifecycle
@@ -66,3 +66,15 @@ To create a new hotfix, we must:
 Hotfixes will always create a new homolog deployment also at the end of the process
 
 https://user-images.githubusercontent.com/23153316/234627432-0affb75d-ee66-4986-a830-3d273f0ba554.mp4
+
+### Advantages
+- Allows devs to easily look into what it's in prod
+- Allows to create a hotfix easily
+- Documented and well defined deployment process
+- Versioning system defined by PR tags makes it easier to know what the release was published for
+- Takes advantage of the prerelease sytem already present on github
+
+### Disadvantages
+- If tag system is not followed, the versioning will not be precise
+- Sandbox version name is the same as production
+- Sandbox version cannot be tracked because the prerelease will become release after

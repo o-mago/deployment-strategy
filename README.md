@@ -33,29 +33,26 @@ It is automatically increased by the release drafter based on the tags added to 
 How to deploy to each environment
 
 ### Homolog
-![homolg deploy](https://user-images.githubusercontent.com/23153316/234607011-c3124844-ca57-4b92-89f5-f547ed30fd5d.gif)
-
 - Merge a PR into our `main` branch
 
-### Sandbox
-![sandbox deploy](https://user-images.githubusercontent.com/23153316/234606777-4d9378be-34c4-4d20-bdbd-42b5a8295253.gif)
+https://user-images.githubusercontent.com/23153316/234625312-dfc9462c-88eb-4a1d-80af-6713f8f2e489.mp4
 
+### Sandbox
 - Edit release draft
 - Make sure `Set as a pre-release` is checked
 - Publish
 
-### Production
-![production deploy](https://user-images.githubusercontent.com/23153316/234606871-a97301e0-701f-435e-a9fb-eb7b8b138a76.gif)
+https://user-images.githubusercontent.com/23153316/234627351-e585c3a0-25ca-4e77-a175-e80094756722.mp4
 
+### Production
 - Edit the existing prerelease
 - Uncheck `Set as a pre-release`
 - Check `Set as the latest release`
 - Save
 
+https://user-images.githubusercontent.com/23153316/234627381-4f22eadb-0ae8-4afd-84e4-caf13df7b64c.mp4
 
 ## Hotfix
-![hotfix](https://user-images.githubusercontent.com/23153316/234606987-cec06ebd-96cf-4eef-a3db-6e9c11c027b0.gif)
-
 To create a new hotfix, we must:
 - Create a PR pointing directly to the `prod` branch and merge it
 - It will deploy to `sandbox` and `prod`
@@ -67,3 +64,5 @@ To create a new hotfix, we must:
 **This will avoid branch `prod` being 1 commit ahead of `main`. It would happen if we `Squash and merge`, because a new commit would be created only and the original hotfix commit wouldn't be merged
 
 Hotfixes will always create a new homolog deployment also at the end of the process
+
+https://user-images.githubusercontent.com/23153316/234627432-0affb75d-ee66-4986-a830-3d273f0ba554.mp4

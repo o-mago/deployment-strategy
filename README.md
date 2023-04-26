@@ -10,32 +10,43 @@ With this approach we have 2 main branches:
 - `prod`: production branch, whatever is inside this branch is deployed to production
 
 ## Releases
-
 All release drafts are created automatically when we merge a PR to the main branch
 
-## Deployment
+### Versioning
+The version is based on the [semver 2.0.0](https://semver.org/)
+It is automatically increased by the release drafter based on the tags added to the PRs:
+- major:
+    - 💣 Breaking change
+- minor:
+    - 🚀 Feature
+- patch:
+    - 🐛 Bugfix
+    - 🔥 Hotfix
+    - 📚 Documentation
+    - 🏗️ Refactor
+    - 🧪 Test
+    - 🚨 Security
+    - ☁️ CI
+    - no tag
 
+## Deployment
 How to deploy to each environment
 
 ### Homolog
-
 - Merge a PR into our `main` branch
 
 ### Sandbox
-
 - Edit release draft
 - Make sure `Set as a pre-release` is checked
 - Publish
 
 ### Production
-
 - Edit the existing prerelease
 - Uncheck `Set as a pre-release`
 - Check `Set as the latest release`
 - Save
 
 ## Hotfix
-
 To create a new hotfix, we must:
 - Create a PR pointing directly to the `prod` branch and merge it
 - It will deploy to `sandbox` and `prod`

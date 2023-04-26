@@ -16,7 +16,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [ prepare ]
+    needs: [prepare]
     steps:
       - name: Set vars
         id: set-vars
@@ -26,7 +26,7 @@ jobs:
   homolog:
     name: Homolog
     runs-on: ubuntu-latest
-    needs: [ prepare, build ]
+    needs: [prepare, build]
     if: needs.prepare.outputs.homolog == 'true'
     steps:
       - name: Deploy Homolog
@@ -37,7 +37,7 @@ jobs:
   sandbox:
     name: Sandbox
     runs-on: ubuntu-latest
-    needs: [ prepare, build ]
+    needs: [prepare, build]
     if: needs.prepare.outputs.sandbox == 'true'
     steps:
       - name: Deploy Sandbox
@@ -48,7 +48,7 @@ jobs:
   production:
     name: Production
     runs-on: ubuntu-latest
-    needs: [ prepare, build ]
+    needs: [prepare, build]
     if: needs.prepare.outputs.production == 'true'
     steps:
       - name: Deploy Prod
@@ -59,15 +59,15 @@ jobs:
   auto-merge-prod:
     name: Auto merge prod back to main
     runs-on: ubuntu-latest
-    needs: [ prepare, build, production ]
+    needs: [prepare, build, production]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set Git config
-      run: |
+      - uses: actions/checkout@v2
+      - name: Set Git config
+        run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
-    - name: Merge prod back to main
-      run: |
+      - name: Merge prod back to main
+        run: |
           git fetch --unshallow
           git checkout main
           git pull

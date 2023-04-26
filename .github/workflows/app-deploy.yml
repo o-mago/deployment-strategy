@@ -74,7 +74,7 @@ jobs:
           git fetch --unshallow
           git checkout prod
           git pull
-          git merge origin/main --no-commit --no-ff
+          git merge origin/main --ff-only
           git push
 
   update-main:
@@ -91,5 +91,19 @@ jobs:
           git fetch --unshallow
           git checkout main
           git pull
-          git merge origin/prod --no-commit --no-ff
-          git push
+          git merge origin/prod
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Hotfix update to main
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: hotfix
+          delete-branch: true
+          title: '[Hotfix Update] Update main branch with hotfix'
+          body: |
+            Update report
+            - Updates main branch after a hotfix is merged to prod branch directly
+            - Auto-generated
+          labels: |
+            🔥 Hotfix

@@ -90,6 +90,7 @@ jobs:
       - name: Create PR
         run: |
           git checkout prod
+          git pull
           git branch auto-hotfix
           gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head auto-hotfix
         env:

@@ -31,10 +31,10 @@ jobs:
           homolog="false"
           sandbox="false"
           production="false"
-          tag="${{ GITHUB_REF_NAME }}"
-          [ "${{ GITHUB_REF_NAME }}" == "prod" ] ; isHotFix=$?
+          tag="${{ github.ref_name }}"
+          [ "${{ github.ref_name }}" == "prod" ] ; isHotFix=$?
 
-          if [[ "${{ GITHUB_REF_NAME }}" == "main" ]]; then
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
             homolog="true"
           fi
 
@@ -47,7 +47,7 @@ jobs:
           fi
 
           if [[ $isHotFix ]]
-            tag="${{ GITHUB_REF_NAME }}-${{ GITHUB_SHA }}"
+            tag="${{ github.ref_name }}-${{ github.sha }}"
           fi
 
           echo "homolog=$homolog" >> $GITHUB_OUTPUT

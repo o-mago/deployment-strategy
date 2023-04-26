@@ -6,60 +6,90 @@ on:
   push:
     branches:
       - main
-
-concurrency:
-  group: deploy-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-  pull-requests: read
+      - prod
 
 jobs:
   prepare:
     name: Prepare
     if: ${{ github.actor != 'dependabot[bot]' }}
-    uses: ./prepare.yml
+    uses: ./.github/workflows/prepare.yml
 
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [ prepare ]
+    needs: [prepare]
     steps:
-      - name: Set vars
-        id: set-vars
+      - name: Build
+        id: build
         run: |
           echo "build"
 
   homolog:
     name: Homolog
     runs-on: ubuntu-latest
-    needs: [ prepare, build ]
+    needs: [prepare, build]
     if: needs.prepare.outputs.homolog == 'true'
     steps:
-      - name: Set vars
-        id: set-vars
+      - name: Deploy Homolog
+        id: deploy-homolog
         run: |
           echo "deploy homolog ${{ needs.prepare.outputs.tag }}"
 
   sandbox:
     name: Sandbox
     runs-on: ubuntu-latest
-    needs: [ prepare, build ]
+    needs: [prepare, build]
     if: needs.prepare.outputs.sandbox == 'true'
     steps:
-      - name: Set vars
-        id: set-vars
+      - name: Deploy Sandbox
+        id: deploy-sandbox
         run: |
-          echo "deploy homolog ${{ needs.prepare.outputs.tag }}"
+          echo "deploy sandbox ${{ needs.prepare.outputs.tag }}"
 
   production:
     name: Production
     runs-on: ubuntu-latest
-    needs: [ prepare, build, sandbox ]
+    needs: [prepare, build]
     if: needs.prepare.outputs.production == 'true'
     steps:
-      - name: Set vars
-        id: set-vars
+      - name: Deploy Prod
+        id: deploy-prod
         run: |
-          echo "deploy homolog ${{ needs.prepare.outputs.tag }}"
+          echo "deploy prod ${{ needs.prepare.outputs.tag }}"
+
+  update-prod:
+    name: Update prod branch
+    runs-on: ubuntu-latest
+    needs: [prepare, build, production]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Git config
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+      - name: Merge prod back to main
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git fetch --unshallow
+          git checkout prod
+          git pull
+          git merge --no-ff origin/main -m "auto merge main with prod"
+          git push
+
+  update-main:
+    name: Update main branch
+    runs-on: ubuntu-latest
+    needs: [prepare, build, production]
+    if: ${{ github.ref_name == 'prod' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Merge prod back to main
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git fetch --unshallow
+          git checkout main
+          git pull
+          git merge --no-ff origin/prod -m "auto merge prod with main"
+          git push

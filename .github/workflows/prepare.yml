@@ -46,7 +46,7 @@ jobs:
             production="true"
           fi
 
-          if [[ $isHotFix ]]
+          if [[ $isHotFix ]]; then
             tag="${{ github.ref_name }}-${{ github.sha }}"
           fi
 

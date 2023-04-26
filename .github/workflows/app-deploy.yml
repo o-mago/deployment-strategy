@@ -88,6 +88,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create PR
-        run: gh pr create --title "Merge prod into main" --body "This is a pull request to merge prod into main" --base main --head prod
+        run: gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head prod
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

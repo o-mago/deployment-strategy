@@ -94,7 +94,6 @@ jobs:
           git fetch
           git checkout prod
           git checkout -b auto-hotfix
-          git merge origin/main --allow-unrelated-histories
           git push origin auto-hotfix
           gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head auto-hotfix
         env:

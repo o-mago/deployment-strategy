@@ -62,19 +62,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
     steps:
-      - uses: actions/checkout@v2
-      - name: Set main branch flag
-        run: echo "::set-env name=MAIN_BRANCH::true"
+      - uses: actions/checkout@v3
       - name: Set Git config
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
       - name: Merge prod back to main
         run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git fetch --unshallow
-          git checkout main
+          git checkout prod
           git pull
-          git merge --no-ff prod -m "auto merge prod back to main"
+          git merge --no-ff origin/main -m "auto merge main with prod"
           git push
 
   update-main:
@@ -83,16 +83,13 @@ jobs:
     needs: [prepare, build, production]
     if: ${{ github.ref_name == 'prod' }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Set Git config
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "Github Actions"
+      - uses: actions/checkout@v3
       - name: Merge prod back to main
-        if: ${{env.MAIN_BRANCH != 'true' }}}}
         run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git fetch --unshallow
           git checkout main
           git pull
-          git merge --no-ff origin/prod -m "auto merge prod back to main"
+          git merge --no-ff origin/prod -m "auto merge prod with main"
           git push

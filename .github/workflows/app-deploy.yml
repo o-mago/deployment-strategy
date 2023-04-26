@@ -61,6 +61,7 @@ jobs:
     name: Update prod branch
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
+    if: ${{ github.event.action == 'released' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set Git config

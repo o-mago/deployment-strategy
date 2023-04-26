@@ -31,8 +31,12 @@ jobs:
           homolog="false"
           sandbox="false"
           production="false"
+          isHotFix="false"
           tag="${{ github.ref_name }}"
-          [ "${{ github.ref_name }}" == "prod" ] ; isHotFix=$?
+          
+          if [[ "${{ github.ref_name }}" == "prod" ]]; then
+            isHotFix="true"
+          fi
 
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             homolog="true"
@@ -42,7 +46,7 @@ jobs:
             sandbox="true"
           fi
 
-          if [[ ("${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix ]]; then
+          if [[ ("${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix == "true" ]]; then
             production="true"
           fi
 

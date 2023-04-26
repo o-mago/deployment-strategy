@@ -91,9 +91,11 @@ jobs:
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Hotfix update to main
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          base: main
           branch: prod
           title: "[Hotfix Update] Update main branch with hotfix"
           body: |

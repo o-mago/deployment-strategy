@@ -61,7 +61,7 @@ jobs:
     name: Update prod branch
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
-    if: ${{ GITHUB_REF_NAME == 'main' }}
+    if: ${{ github.ref_name == 'main' }}
     steps:
       - uses: actions/checkout@v2
       - name: Set main branch flag
@@ -82,7 +82,7 @@ jobs:
     name: Update main branch
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
-    if: ${{ GITHUB_REF_NAME == 'prod' && env.MAIN_BRANCH != 'true' }}
+    if: ${{ github.ref_name == 'prod' && env.MAIN_BRANCH != 'true' }}
     steps:
       - uses: actions/checkout@v2
       - name: Set Git config

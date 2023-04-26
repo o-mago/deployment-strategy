@@ -85,21 +85,4 @@ jobs:
     if: ${{ github.ref_name == 'prod' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Hotfix update to main
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: main
-          base: prod
-          title: "[Hotfix Update] Update main branch with hotfix"
-          body: |
-            Update report
-            - Updates main branch after a hotfix is merged to prod branch directly
-            - Auto-generated
-          labels: |
-            🔥 Hotfix
+        run: gh pr create --title "Merge prod into main" --body "This is a pull request to merge prod into main" --base main --head prod

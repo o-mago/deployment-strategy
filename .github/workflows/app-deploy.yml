@@ -74,7 +74,7 @@ jobs:
           git fetch --unshallow
           git checkout prod
           git pull
-          git merge --no-ff origin/main -m "auto merge main with prod"
+          git merge origin/main
           git push
 
   update-main:
@@ -91,5 +91,5 @@ jobs:
           git fetch --unshallow
           git checkout main
           git pull
-          git merge --no-ff origin/prod -m "auto merge prod with main"
+          git merge origin/prod
           git push

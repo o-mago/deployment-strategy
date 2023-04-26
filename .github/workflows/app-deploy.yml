@@ -85,14 +85,18 @@ jobs:
     if: ${{ github.ref_name == 'prod' }}
     steps:
       - uses: actions/checkout@v3
+      - name: Checkout main
+        run: |
+          git checkout main
+
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
           commit-message: Hotfix update to main
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          base: prod
-          branch: main
+          base: main
+          branch: prod
           title: '[Hotfix Update] Update main branch with hotfix'
           body: |
             Update report

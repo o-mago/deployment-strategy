@@ -86,3 +86,5 @@ jobs:
     steps:
       - name: Checkout code
         run: gh pr create --title "Merge prod into main" --body "This is a pull request to merge prod into main" --base main --head prod
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

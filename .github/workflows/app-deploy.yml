@@ -89,9 +89,6 @@ jobs:
 
       - name: Create PR
         run: |
-          git checkout prod
-          git branch auto-hotfix
-          git push origin auto-hotfix
-          gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head auto-hotfix
+          gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head prod
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

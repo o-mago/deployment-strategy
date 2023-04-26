@@ -1,52 +1,52 @@
-name-template: 'v$RESOLVED_VERSION'
-tag-template: 'v$RESOLVED_VERSION'
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
 prerelease: true
 categories:
-  - title: '💣 Breaking Change'
+  - title: "💣 Breaking Change"
     labels:
-      - '💣 Breaking change'
-  - title: '🚀 Feature'
+      - "💣 Breaking change"
+  - title: "🚀 Feature"
     labels:
-      - '🚀 Feature'
-  - title: '🐛 Bugfix'
+      - "🚀 Feature"
+  - title: "🐛 Bugfix"
     labels:
-      - '🐛 Bugfix'
-  - title: '🔥 Hotfix'
+      - "🐛 Bugfix"
+  - title: "🔥 Hotfix"
     labels:
-      - '🔥 Hotfix'
-  - title: '📚 Documentation'
+      - "🔥 Hotfix"
+  - title: "📚 Documentation"
     labels:
-      - '📚 Documentation'
-  - title: '🏗️ Refactor'
+      - "📚 Documentation"
+  - title: "🏗️ Refactor"
     labels:
-      - '🏗️ Refactor'
-  - title: '🧪 Test'
+      - "🏗️ Refactor"
+  - title: "🧪 Test"
     labels:
-      - '🧪 Test'
-  - title: '🚨 Security'
+      - "🧪 Test"
+  - title: "🚨 Security"
     labels:
-      - '🚨 Security'
-  - title: '☁️ CI'
+      - "🚨 Security"
+  - title: "☁️ CI"
     labels:
-      - '☁️ CI'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+      - "☁️ CI"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&'
 version-resolver:
   major:
     labels:
-      - '💣 Breaking change'
+      - "💣 Breaking change"
   minor:
     labels:
-      - '🚀 Feature'
+      - "🚀 Feature"
   patch:
     labels:
-      - '🐛 Bugfix'
-      - '🔥 Hotfix'
-      - '📚 Documentation'
-      - '🏗️ Refactor'
-      - '🧪 Test'
-      - '🚨 Security'
-      - '☁️ CI'
+      - "🐛 Bugfix"
+      - "🔥 Hotfix"
+      - "📚 Documentation"
+      - "🏗️ Refactor"
+      - "🧪 Test"
+      - "🚨 Security"
+      - "☁️ CI"
   default: patch
 template: |
   $CHANGES

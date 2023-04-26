@@ -32,12 +32,12 @@ jobs:
           sandbox="false"
           production="false"
           tag=""
-          
+
           if [ "${{ github.event_name }}" == "push" ]; then
             homolog="true"
             tag="main"
           fi
-          
+
           if [[ "${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "true" ]]; then
             sandbox="true"
           fi
@@ -45,12 +45,12 @@ jobs:
           if [[ "${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false" ]]; then
             production="true"
           fi
-          
+
           echo "homolog=$homolog" >> $GITHUB_OUTPUT
           echo "sandbox=$sandbox" >> $GITHUB_OUTPUT
           echo "production=$production" >> $GITHUB_OUTPUT
           echo "tag=$tag" >> $GITHUB_OUTPUT
-          
+
           echo "Homolog: $homolog"
           echo "Sandbox: $sandbox"
           echo "Production: $production"

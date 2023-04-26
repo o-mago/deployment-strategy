@@ -84,6 +84,7 @@ jobs:
     needs: [prepare, build, production]
     if: ${{ github.ref_name == 'prod' }}
     steps:
+      - uses: actions/checkout@v3
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:

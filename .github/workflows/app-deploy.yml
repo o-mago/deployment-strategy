@@ -88,18 +88,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create PR
-        uses: peter-evans/create-pull-request@v5
-        with:
-          commit-message: Hotfix update to main
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: auto-hotfix
-          base: main
-          delete-branch: true
-          title: '[Hotfix Update] Update main branch with hotfix'
-          body: |
-            Update report
-            - Updates main branch after a hotfix is merged to prod branch directly
-            - Auto-generated
-          labels: |
-            🔥 Hotfix
+        run: |
+          git checkout prod
+          git branch auto-hotfix
+          gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head auto-hotfix
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

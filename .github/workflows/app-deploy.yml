@@ -89,6 +89,7 @@ jobs:
 
       - name: Create PR
         run: |
+          git fetch
           git checkout prod
           git branch auto-hotfix
           git merge main

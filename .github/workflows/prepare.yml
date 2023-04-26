@@ -42,7 +42,7 @@ jobs:
             sandbox="true"
           fi
 
-          if [[ ()"${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix ]]; then
+          if [[ ("${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix ]]; then
             production="true"
           fi
 

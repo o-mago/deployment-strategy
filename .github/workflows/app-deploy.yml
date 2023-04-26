@@ -82,7 +82,7 @@ jobs:
     name: Update main branch
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
-    if: ${{ github.ref_name == 'prod' && env.MAIN_BRANCH != 'true' }}
+    if: ${{ github.ref_name == 'prod' }}
     steps:
       - uses: actions/checkout@v2
       - name: Set Git config
@@ -90,6 +90,7 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
       - name: Merge prod back to main
+        if: ${{env.MAIN_BRANCH != 'true' }}}}
         run: |
           git fetch --unshallow
           git checkout main

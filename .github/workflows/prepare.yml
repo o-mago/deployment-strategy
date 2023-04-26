@@ -42,7 +42,7 @@ jobs:
             homolog="true"
           fi
 
-          if [[ "${{ github.event.action }}" == "published" ]]; then
+          if [[ "${{ github.event.action }}" == "published" || $isHotFix == "true" ]]; then
             sandbox="true"
           fi
 

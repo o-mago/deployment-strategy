@@ -62,4 +62,8 @@ jobs:
           echo "Homolog: $homolog"
           echo "Sandbox: $sandbox"
           echo "Production: $production"
+          echo "IsHotfix: $isHotFix"
           echo "Tag: $tag"
+
+          echo "${{ github.event.action }}"
+          echo "${{ github.event.release.prerelease }}"

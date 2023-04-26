@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - prod
 
 jobs:
   prepare:
@@ -56,10 +57,32 @@ jobs:
         run: |
           echo "deploy prod ${{ needs.prepare.outputs.tag }}"
 
-  auto-merge-prod:
-    name: Auto merge prod back to main
+  update-prod:
+    name: Update prod branch
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
+    if: ${{ GITHUB_REF_NAME == 'main' }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set main branch flag
+        run: echo "::set-env name=MAIN_BRANCH::true"
+      - name: Set Git config
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+      - name: Merge prod back to main
+        run: |
+          git fetch --unshallow
+          git checkout main
+          git pull
+          git merge --no-ff prod -m "auto merge prod back to main"
+          git push
+
+  update-main:
+    name: Update main branch
+    runs-on: ubuntu-latest
+    needs: [prepare, build, production]
+    if: ${{ GITHUB_REF_NAME == 'prod' && env.MAIN_BRANCH != 'true' }}
     steps:
       - uses: actions/checkout@v2
       - name: Set Git config
@@ -71,5 +94,5 @@ jobs:
           git fetch --unshallow
           git checkout main
           git pull
-          git merge --no-ff prod -m "auto merge prod back to main"
+          git merge --no-ff origin/prod -m "auto merge prod back to main"
           git push

@@ -31,19 +31,23 @@ jobs:
           homolog="false"
           sandbox="false"
           production="false"
-          tag=""
+          tag="${{ GITHUB_REF_NAME }}"
+          [ "${{ GITHUB_REF_NAME }}" == "prod" ] ; isHotFix=$?
 
-          if [ "${{ github.event_name }}" == "push" ]; then
+          if [[ "${{ GITHUB_REF_NAME }}" == "main" ]]; then
             homolog="true"
-            tag="main"
           fi
 
           if [[ "${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "true" ]]; then
             sandbox="true"
           fi
 
-          if [[ "${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false" ]]; then
+          if [[ ()"${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix ]]; then
             production="true"
+          fi
+
+          if [[ $isHotFix ]]
+            tag="${{ GITHUB_REF_NAME }}-${{ GITHUB_SHA }}"
           fi
 
           echo "homolog=$homolog" >> $GITHUB_OUTPUT

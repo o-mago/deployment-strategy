@@ -46,15 +46,15 @@ jobs:
             isHotFix="true"
           fi
 
-          if [[ "${{ github.ref_name }}" == "main" || ${{ inputs.env }} == "Homolog"  ]]; then
+          if [[ "${{ github.ref_name }}" == "main" || "${{ inputs.env }}" == "Homolog" ]]; then
             homolog="true"
           fi
 
-          if [[ "${{ github.event.action }}" == "published" || $isHotFix == "true" || ${{ inputs.env }} == "Sandbox"  ]]; then
+          if [[ "${{ github.event.action }}" == "published" || $isHotFix == "true" || "${{ inputs.env }}" == "Sandbox" ]]; then
             sandbox="true"
           fi
 
-          if [[ "${{ github.event.action }}" == "released" || $isHotFix == "true"  || ${{ inputs.env }} == "Prod" ]]; then
+          if [[ "${{ github.event.action }}" == "released" || $isHotFix == "true"  || "${{ inputs.env }}" == "Prod" ]]; then
             production="true"
           fi
 

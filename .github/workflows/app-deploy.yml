@@ -11,7 +11,7 @@ on:
     inputs:
       env:
         type: choice
-        default: QA
+        default: Homolog
         description: Environment
         options: 
           - Homolog

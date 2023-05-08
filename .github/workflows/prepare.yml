@@ -37,9 +37,10 @@ jobs:
           sandbox="false"
           production="false"
           isHotFix="false"
-          tag="${{ github.ref_name }}"
+          tag=${{ github.ref_name }}
           tag=${tag%-*}
-          short_sha=${github.sha::7}
+          sha=${{github.sha}}
+          short_sha=${sha::7}
           
           if [[ "${{ github.ref_name }}" == "prod" ]]; then
             isHotFix="true"

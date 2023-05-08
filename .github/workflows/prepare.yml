@@ -58,7 +58,7 @@ jobs:
             production="true"
           fi
 
-          if [[ $isHotFix ]]; then
+          if [[ $isHotFix == "true" ]]; then
             tag="$tag-$short_sha"
           fi
 

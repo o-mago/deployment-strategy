@@ -38,7 +38,6 @@ jobs:
           production="false"
           isHotFix="false"
           tag=${{ github.ref_name }}
-          tag=${tag%-*}
           sha=${{github.sha}}
           short_sha=${sha::7}
           

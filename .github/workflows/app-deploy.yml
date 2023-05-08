@@ -7,12 +7,24 @@ on:
     branches:
       - main
       - prod
+  workflow_dispatch:
+    inputs:
+      env:
+        type: choice
+        default: QA
+        description: Environment
+        options: 
+          - Homolog
+          - Sandbox
+          - Prod
 
 jobs:
   prepare:
     name: Prepare
     if: ${{ github.actor != 'dependabot[bot]' }}
     uses: ./.github/workflows/prepare.yml
+    with:
+      env: ${{ github.event.inputs.env }}
 
   build:
     name: Build

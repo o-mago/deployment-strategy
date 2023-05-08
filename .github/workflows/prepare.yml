@@ -2,6 +2,10 @@ name: prepare-deploy
 
 on:
   workflow_call:
+    inputs:
+      env:
+        description: 'Environment to deploy by workflow dispatch'
+        type: string
     outputs:
       homolog:
         description: "Boolean to activate homolog build/deploy"
@@ -15,6 +19,7 @@ on:
       tag:
         description: "TAG"
         value: ${{ jobs.prepare.outputs.tag }}
+
 jobs:
   prepare:
     name: Prepare
@@ -33,25 +38,27 @@ jobs:
           production="false"
           isHotFix="false"
           tag="${{ github.ref_name }}"
+          tag=${tag%-*}
+          short_sha=${github.sha::7}
           
           if [[ "${{ github.ref_name }}" == "prod" ]]; then
             isHotFix="true"
           fi
 
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
+          if [[ "${{ github.ref_name }}" == "main" || ${{ inputs.env }} == "Homolog"  ]]; then
             homolog="true"
           fi
 
-          if [[ "${{ github.event.action }}" == "published" || $isHotFix == "true" ]]; then
+          if [[ "${{ github.event.action }}" == "published" || $isHotFix == "true" || ${{ inputs.env }} == "Sandbox"  ]]; then
             sandbox="true"
           fi
 
-          if [[ "${{ github.event.action }}" == "released" || $isHotFix == "true" ]]; then
+          if [[ "${{ github.event.action }}" == "released" || $isHotFix == "true"  || ${{ inputs.env }} == "Prod" ]]; then
             production="true"
           fi
 
           if [[ $isHotFix ]]; then
-            tag="${{ github.ref_name }}-${{ github.sha }}"
+            tag="$tag-$short_sha"
           fi
 
           echo "homolog=$homolog" >> $GITHUB_OUTPUT

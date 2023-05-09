@@ -52,7 +52,7 @@
               homolog="true"
             fi
   
-            if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "Sandbox" || $isHotFix == "true"  ]]; then
+            if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "true") || "${{ inputs.env }}" == "Sandbox" || $isHotFix == "true"  ]]; then
               sandbox="true"
             fi
   

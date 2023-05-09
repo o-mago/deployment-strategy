@@ -71,4 +71,3 @@
             echo "Production: $production"
             echo "IsHotfix: $isHotFix"
             echo "Tag: $tag"
-  

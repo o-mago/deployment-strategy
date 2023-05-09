@@ -1,73 +1,74 @@
-name: prepare-deploy
-
-on:
-  workflow_call:
-    inputs:
-      env:
-        description: 'Environment to deploy by workflow dispatch'
-        type: string
-    outputs:
-      homolog:
-        description: "Boolean to activate homolog build/deploy"
-        value: ${{ jobs.prepare.outputs.homolog }}
-      sandbox:
-        description: "Boolean to activate sandbox build/deploy"
-        value: ${{ jobs.prepare.outputs.sandbox }}
-      production:
-        description: "Boolean to activate production build/deploy"
-        value: ${{ jobs.prepare.outputs.production }}
-      tag:
-        description: "TAG"
-        value: ${{ jobs.prepare.outputs.tag }}
-
-jobs:
-  prepare:
-    name: Prepare
-    runs-on: ubuntu-latest
-    outputs:
-      homolog: ${{ steps.set-vars.outputs.homolog }}
-      sandbox: ${{ steps.set-vars.outputs.sandbox }}
-      production: ${{ steps.set-vars.outputs.production }}
-      tag: ${{ steps.set-vars.outputs.tag }}
-    steps:
-      - name: Set vars
-        id: set-vars
-        run: |
-          homolog="false"
-          sandbox="false"
-          production="false"
-          isHotFix="false"
-          tag=${{ github.ref_name }}
-          sha=${{github.sha}}
-          short_sha=${sha::7}
-          
-          if [[ "${{github.event_name}}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod" ]]; then
-            isHotFix="true"
-            tag="$tag-$short_sha"
-          fi
-
-          if [[ ("${{github.event_name}}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "Homolog" ]]; then
-            homolog="true"
-          fi
-
-          if [[ ("${{github.event_name}}" != "workflow_dispatch" && "${{ github.event.action }}" == "published") || $isHotFix == "true" || "${{ inputs.env }}" == "Sandbox" ]]; then
-            sandbox="true"
-          fi
-
-          if [[ ("${{github.event_name}}" != "workflow_dispatch" && "${{ github.event.action }}" == "released") || $isHotFix == "true"  || "${{ inputs.env }}" == "Prod" ]]; then
-            production="true"
-          fi
-
-          echo "homolog=$homolog" >> $GITHUB_OUTPUT
-          echo "sandbox=$sandbox" >> $GITHUB_OUTPUT
-          echo "production=$production" >> $GITHUB_OUTPUT
-          echo "tag=$tag" >> $GITHUB_OUTPUT
-
-          echo "Homolog: $homolog"
-          echo "Sandbox: $sandbox"
-          echo "Production: $production"
-          echo "IsHotfix: $isHotFix"
-          echo "Tag: $tag"
-
-          echo "${{ github.event.action }}"
-          echo "${{ github.event.release.prerelease }}"
+---
+  name: Deploy - Prepare
+  
+  on:
+    workflow_call:
+      inputs:
+        env:
+          description: "Environment to deploy by workflow dispatch"
+          type: string
+      outputs:
+        homolog:
+          description: "Boolean to activate homolog build/deploy"
+          value: ${{ jobs.prepare.outputs.homolog }}
+        sandbox:
+          description: "Boolean to activate sandbox build/deploy"
+          value: ${{ jobs.prepare.outputs.sandbox }}
+        production:
+          description: "Boolean to activate production build/deploy"
+          value: ${{ jobs.prepare.outputs.production }}
+        tag:
+          description: "TAG"
+          value: ${{ jobs.prepare.outputs.tag }}
+  
+  jobs:
+    prepare:
+      name: Prepare
+      runs-on: ubuntu-latest
+      outputs:
+        homolog: ${{ steps.set-vars.outputs.homolog }}
+        sandbox: ${{ steps.set-vars.outputs.sandbox }}
+        production: ${{ steps.set-vars.outputs.production }}
+        tag: ${{ steps.set-vars.outputs.tag }}
+      steps:
+        - name: Set vars
+          id: set-vars
+          run: |
+            homolog="false"
+            sandbox="false"
+            production="false"
+            isHotFix="false"
+            tag=${{ github.ref_name }}
+            tag=${tag%-*}
+            sha=${{ github.sha }}
+            short_sha=${sha::7}
+  
+            if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod") ]]; then
+              isHotFix="true"
+              tag="$tag-$short_sha"
+            fi
+  
+            if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "Homolog" ]]; then
+              homolog="true"
+            fi
+  
+            if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "Sandbox" || $isHotFix == "true"  ]]; then
+              sandbox="true"
+            fi
+  
+            if [[ "${{ github.event.action }}" == "released" || $isHotFix == "true" ]]; then
+              sandbox="true"
+              production="true"
+            fi
+  
+            echo "homolog=$homolog" >> $GITHUB_OUTPUT
+            echo "sandbox=$sandbox" >> $GITHUB_OUTPUT
+            echo "production=$production" >> $GITHUB_OUTPUT
+            echo "tag=$tag" >> $GITHUB_OUTPUT
+  
+            echo "Homolog: $homolog"
+            echo "Sandbox: $sandbox"
+            echo "Production: $production"
+            echo "IsHotfix: $isHotFix"
+            echo "Tag: $tag"
+  

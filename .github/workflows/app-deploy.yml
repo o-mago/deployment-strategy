@@ -61,7 +61,7 @@ jobs:
   production:
     name: Production
     runs-on: ubuntu-latest
-    needs: [prepare, build]
+    needs: [prepare, build, sandbox]
     if: needs.prepare.outputs.production == 'true'
     steps:
       - name: Deploy Prod
@@ -76,19 +76,17 @@ jobs:
     if: ${{ github.event.action == 'released' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Set Git config
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "Github Actions"
       - name: Merge prod back to main
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git fetch --unshallow
-          git checkout prod
-          git pull
-          git merge origin/main --ff-only
-          git push
+          git fetch
+          git checkout main
+          git checkout -b auto-prod
+          git push origin auto-prod
+          gh pr create --title "[${{ needs.prepare.outputs.tag }}] Production Deployment Merge" --body "Merges main branch to prod after a production deployment" --base prod --head auto-prod
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   update-main:
     name: Update main branch

@@ -85,6 +85,8 @@ jobs:
           git checkout -b auto-prod
           git push origin auto-prod
           gh pr create --title "[${{ needs.prepare.outputs.tag }}] Production Deployment Merge" --body "Merges main branch to prod after a production deployment" --base prod --head auto-prod
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   update-main:
     name: Update main branch

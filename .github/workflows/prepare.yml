@@ -43,6 +43,7 @@ jobs:
           
           if [[ "${{github.event_name}}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod" ]]; then
             isHotFix="true"
+            tag="$tag-$short_sha"
           fi
 
           if [[ ("${{github.event_name}}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "Homolog" ]]; then
@@ -55,10 +56,6 @@ jobs:
 
           if [[ ("${{github.event_name}}" != "workflow_dispatch" && "${{ github.event.action }}" == "released") || $isHotFix == "true"  || "${{ inputs.env }}" == "Prod" ]]; then
             production="true"
-          fi
-
-          if [[ $isHotFix == "true" ]]; then
-            tag="$tag-$short_sha"
           fi
 
           echo "homolog=$homolog" >> $GITHUB_OUTPUT

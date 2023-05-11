@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   release:
-    types: [published, released]
+    types: [prereleased, released]
   push:
     branches:
       - main
@@ -61,7 +61,7 @@ jobs:
   production:
     name: Production
     runs-on: ubuntu-latest
-    needs: [prepare, build, sandbox]
+    needs: [prepare, build]
     if: needs.prepare.outputs.production == 'true'
     steps:
       - name: Deploy Prod
@@ -97,10 +97,6 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git fetch
-          git checkout prod
-          git checkout -b auto-hotfix
-          git push origin auto-hotfix
-          gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head auto-hotfix --label "🔥 Hotfix"
+          gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head prod --label "🔥 Hotfix"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

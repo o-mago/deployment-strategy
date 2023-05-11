@@ -83,9 +83,6 @@ jobs:
           git fetch --unshallow
           git checkout main
           gh pr create --title "[${{ needs.prepare.outputs.tag }}] Production Deployment Merge" --body "Merges main branch to prod after a production deployment" --base prod --head main
-          git checkout prod
-          git merge origin/main
-          git push origin prod
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

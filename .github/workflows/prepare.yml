@@ -52,12 +52,11 @@
               homolog="true"
             fi
   
-            if [[ ("${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "true") || "${{ inputs.env }}" == "Sandbox" || $isHotFix == "true"  ]]; then
+            if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "Sandbox" || $isHotFix == "true"  ]]; then
               sandbox="true"
             fi
   
-            if [[ "${{ github.event.action }}" == "released" || $isHotFix == "true" ]]; then
-              sandbox="true"
+            if [[ ("${{ github.event.action }}" == "published" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix == "true" ]]; then
               production="true"
             fi
   

@@ -23,7 +23,7 @@ on:
 jobs:
   prepare:
     name: Prepare
-    if: github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]'
+    if: github.actor != 'dependabot[bot]'
     uses: ./.github/workflows/prepare.yml
     with:
       env: ${{ github.event.inputs.env }}

@@ -3,8 +3,10 @@ name: Deploy
 on:
   release:
     types: [published, released]
-  push:
-    branches:
+  pull_request:
+    types:
+      - closed
+    branches-ignore:
       - main
       - prod
   workflow_dispatch:

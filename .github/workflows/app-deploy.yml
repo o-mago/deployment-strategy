@@ -3,10 +3,8 @@ name: Deploy
 on:
   release:
     types: [published, released]
-  pull_request:
-    types:
-      - closed
-    branches-ignore:
+  push:
+    branches:
       - main
       - prod
   workflow_dispatch:
@@ -23,7 +21,7 @@ on:
 jobs:
   prepare:
     name: Prepare
-    if: ${{ github.actor != 'dependabot[bot]' && (github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' || github.event.action == 'published')}}
+    if: github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]'
     uses: ./.github/workflows/prepare.yml
     with:
       env: ${{ github.event.inputs.env }}

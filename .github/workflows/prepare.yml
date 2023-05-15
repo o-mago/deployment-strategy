@@ -70,3 +70,6 @@
             echo "Production: $production"
             echo "IsHotfix: $isHotFix"
             echo "Tag: $tag"
+
+            echo "${{ github.event.pusher }}"
+            echo "${{ github.event.pull_request.user.login }}"

@@ -40,7 +40,7 @@
             isHotFix="false"
             tag=${{ github.ref_name }}
 
-            if [[ ("${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
               tag=${{ inputs.env }}
             fi
   

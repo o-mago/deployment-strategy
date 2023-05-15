@@ -6,9 +6,6 @@ on:
   pull_request:
     types:
       - closed
-    branches-ignore:
-      - main
-      - prod
   workflow_dispatch:
     inputs:
       env:

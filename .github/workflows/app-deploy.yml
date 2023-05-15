@@ -20,7 +20,15 @@ on:
 jobs:
   prepare:
     name: Prepare
-    if: github.actor != 'dependabot[bot]'
+    if: |
+      github.actor != 'dependabot[bot]' && 
+      github.event.pull_request.user.login != 'github-actions[bot]' && 
+      (
+        (github.event.action == 'published' && github.event.release.prerelease) ||
+        (github.event.action == 'released' && github.event.release.prerelease == false) ||
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'pull_request'
+      )
     uses: ./.github/workflows/prepare.yml
     with:
       env: ${{ github.event.inputs.env }}

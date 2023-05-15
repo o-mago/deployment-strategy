@@ -21,14 +21,7 @@ jobs:
   prepare:
     name: Prepare
     if: |
-      github.actor != 'dependabot[bot]' && 
-      github.event.pull_request.user.login != 'github-actions[bot]' && 
-      (
-        (github.event.action == 'published' && github.event.release.prerelease) ||
-        (github.event.action == 'released' && github.event.release.prerelease == false) ||
-        github.event_name == 'workflow_dispatch' ||
-        github.event_name == 'pull_request'
-      )
+      github.actor != 'dependabot[bot]' && github.event.pull_request.user.login != 'github-actions[bot]'
     uses: ./.github/workflows/prepare.yml
     with:
       env: ${{ github.event.inputs.env }}
@@ -87,7 +80,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          gh pr create --title "[${{ needs.prepare.outputs.tag }}] Production Deployment Merge" --body "Merges main branch to prod after a production deployment" --base prod --head main
+          gh pr create --title "[${{ needs.prepare.outputs.tag }}] Production Deployment Merge" --body "Merges main branch to prod after a production deployment" --base prod --head main --label "🤖 Bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -104,6 +97,6 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head prod --label "🔥 Hotfix"
+          gh pr create --title "Hotfix Update" --body "Merges prod hotfix to main branch" --base main --head prod --label "🔥 Hotfix" --label "🤖 Bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

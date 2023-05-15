@@ -24,7 +24,7 @@ jobs:
         github.event_name == 'release' ||
         github.event_name == 'workflow_dispatch' ||
         (github.event_name == 'pull_request' && github.event.pull_request.merged == true &&
-          (github.base_ref == 'main' && github.head_ref != 'prod') ||
+          (github.base_ref == 'main' && github.head_ref != 'auto-hotfix') ||
           (github.base_ref == 'prod' && github.head_ref != 'main')
         )
       )
@@ -75,8 +75,8 @@ jobs:
         run: |
           echo "deploy prod ${{ needs.prepare.outputs.tag }}"
 
-  update-prod:
-    name: Update prod branch
+  after-prod-deploy:
+    name: Update prod branch (prod deploy)
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
     if: github.event.action == 'released'
@@ -86,12 +86,12 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          gh pr create --title "[${{ needs.prepare.outputs.tag }}] Production deployment merge" --body "Merges main branch to prod after a production deployment" --base prod --head main --label "🤖 Bot"
+          gh pr create --title "[${{ needs.prepare.outputs.tag }}] main -> prod" --body "Merges main branch to prod after a production deployment" --base prod --head main --label "🤖 Bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  update-main:
-    name: Update main branch
+  after-hotfix:
+    name: Update main branch (hotfix)
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
     if: github.ref_name == 'prod'
@@ -101,6 +101,10 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          gh pr create --title "[Hotfix] Update main branch" --body "Merges prod hotfix to main branch" --base main --head prod --label "🔥 Hotfix" --label "🤖 Bot"
+          git fetch --unshallow
+          git checkout prod
+          git checkout -b auto-hotfix
+          git push origin auto-hotfix
+          gh pr create --title "[Hotfix] prod -> main" --body "Merges prod hotfix to main branch" --base main --head auto-hotfix --label "🔥 Hotfix" --label "🤖 Bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

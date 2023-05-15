@@ -90,9 +90,7 @@ jobs:
     needs: [prepare, build, production]
     if: ${{ github.ref_name == 'prod' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       - name: Create PR to update main branch
         run: |
           git config user.name github-actions

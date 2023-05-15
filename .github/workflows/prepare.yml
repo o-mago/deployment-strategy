@@ -39,20 +39,24 @@
             production="false"
             isHotFix="false"
             tag=${{ github.ref_name }}
-            tag=${tag%-*}
-            sha=${{ github.sha }}
-            short_sha=${sha::7}
+
+            if [[ ("${{ github.event_name }}" == "workflow_dispatch" ]]; then
+              tag=${{ inputs.env }}
+            fi
   
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod") ]]; then
               isHotFix="true"
+              
+              sha=${{ github.sha }}
+              short_sha=${sha::7}
               tag="$tag-$short_sha"
             fi
   
-            if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "Homolog" ]]; then
+            if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "homolog" ]]; then
               homolog="true"
             fi
   
-            if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "Sandbox" || $isHotFix == "true"  ]]; then
+            if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" || $isHotFix == "true"  ]]; then
               sandbox="true"
             fi
   
@@ -70,6 +74,3 @@
             echo "Production: $production"
             echo "IsHotfix: $isHotFix"
             echo "Tag: $tag"
-
-            echo "${{ github.actor }}"
-            echo "${{ github.event.pull_request.user.login }}"

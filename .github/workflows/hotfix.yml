@@ -1,0 +1,21 @@
+name: Hotfix PR
+
+on:
+  push:
+    branches:
+        - hotfix/*
+        
+jobs:
+    create-pr:
+        name: Create Hotfix PR
+        runs-on: ubuntu-latest
+        if: github.event.created
+        steps:
+            - uses: actions/checkout@v3
+            - name: Create hotfix PR
+              run: |
+                git config user.name github-actions
+                git config user.email github-actions@github.com
+                gh pr create --title "Hotfix" --body "Hotfix PR" --base prod --head ${{ github.ref_name }} --label "🔥 Hotfix"
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

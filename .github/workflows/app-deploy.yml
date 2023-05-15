@@ -21,13 +21,12 @@ jobs:
     if: |
       github.actor != 'dependabot[bot]' &&
       (
-        (github.base_ref == 'main' && github.head_ref != 'prod') ||
-        (github.base_ref == 'prod' && github.head_ref != 'main')
-      ) &&
-      (
         github.event_name == 'release' ||
         github.event_name == 'workflow_dispatch' ||
-        (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+        (github.event_name == 'pull_request' && github.event.pull_request.merged == true &&
+          (github.base_ref == 'main' && github.head_ref != 'prod') ||
+          (github.base_ref == 'prod' && github.head_ref != 'main')
+        )
       )
     uses: ./.github/workflows/prepare.yml
     with:

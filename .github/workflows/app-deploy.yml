@@ -21,7 +21,12 @@ jobs:
   prepare:
     name: Prepare
     if: |
-      github.actor != 'dependabot[bot]' && github.event.pull_request.user.login != 'github-actions[bot]'
+      github.actor != 'dependabot[bot]' && github.event.pull_request.user.login != 'github-actions[bot]' &&
+      (
+        github.event_name == 'release' ||
+        github.event_name == 'workflow_dispatch' ||
+        (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+      )
     uses: ./.github/workflows/prepare.yml
     with:
       env: ${{ github.event.inputs.env }}

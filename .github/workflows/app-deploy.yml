@@ -19,7 +19,11 @@ jobs:
   prepare:
     name: Prepare
     if: |
-      github.actor != 'dependabot[bot]' && github.event.pull_request.user.login != 'github-actions[bot]' &&
+      github.actor != 'dependabot[bot]' &&
+      (
+        (github.base_ref == 'main' && github.head_ref != 'prod') ||
+        (github.base_ref == 'prod' && github.head_ref != 'main')
+      ) &&
       (
         github.event_name == 'release' ||
         github.event_name == 'workflow_dispatch' ||

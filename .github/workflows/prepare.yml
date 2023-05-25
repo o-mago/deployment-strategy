@@ -47,16 +47,14 @@
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod") ]]; then
               isHotFix="true"
               
-              sha=${{ github.sha }}
-              short_sha=${sha::7}
-              tag="$tag-$short_sha"
+              tag=$(git describe --tags --abbrev=0)
             fi
   
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "homolog" ]]; then
               homolog="true"
             fi
   
-            if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" || $isHotFix == "true"  ]]; then
+            if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" ]]; then
               sandbox="true"
             fi
   

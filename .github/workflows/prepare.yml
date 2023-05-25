@@ -48,6 +48,7 @@
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod") ]]; then
               isHotFix="true"
               
+              git checkout prod
               tag=$(git describe --tags --abbrev=0)
             fi
   

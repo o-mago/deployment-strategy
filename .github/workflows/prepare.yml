@@ -47,7 +47,7 @@
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod") ]]; then
               isHotFix="true"
 
-              tag=git describe --tags --abbrev=0
+              tag=$(git describe --tags --abbrev=0)
             fi
   
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "homolog" ]]; then

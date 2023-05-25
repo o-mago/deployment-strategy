@@ -45,7 +45,7 @@
               tag=${{ inputs.env }}
             fi
   
-            if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "prod") ]]; then
+            if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "production") ]]; then
               isHotFix="true"
 
               git checkout main

@@ -1,6 +1,5 @@
 # Strategy
-
-![schema](https://user-images.githubusercontent.com/23153316/234700090-878a22d5-ad4c-4584-ab24-623e5ca8e324.png)
+![schema](https://github.com/o-mago/deployment-strategy/assets/23153316/240b5ff7-1b70-4118-8805-69077f3c0c11)
 
 ## About
 This deployment strategy is based on the github releases lifecycle

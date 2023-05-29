@@ -60,6 +60,7 @@
   
             if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" ]]; then
               sandbox="true"
+
               tag=$tag-rc$time
             fi
   

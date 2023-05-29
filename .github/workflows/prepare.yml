@@ -42,10 +42,11 @@
             production="false"
             isHotFix="false"
             tag=${{ github.ref_name }}
-            time=$(date +%s)
+            sha=${{ github.sha }}
+            short_sha=${sha::7}
 
             if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-              tag=${{ inputs.env }}-$time
+              tag=${{ inputs.env }}-$short_sha
             fi
   
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "production") ]]; then
@@ -61,7 +62,7 @@
             if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" ]]; then
               sandbox="true"
 
-              tag=$tag-rc$time
+              tag=$tag-rc$short_sha
             fi
   
             if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix == "true" ]]; then

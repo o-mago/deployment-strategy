@@ -32,6 +32,8 @@
         tag: ${{ steps.set-vars.outputs.tag }}
       steps:
         - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
         - name: Set vars
           id: set-vars
           run: |
@@ -40,17 +42,16 @@
             production="false"
             isHotFix="false"
             tag=${{ github.ref_name }}
+            time=$(date +%s)
 
             if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-              tag=${{ inputs.env }}
+              tag=${{ inputs.env }}-$time
             fi
   
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "production") ]]; then
               isHotFix="true"
               
-              git fetch --unshallow
-              git checkout main
-              tag=$(git describe --tags --abbrev=0)
+              tag=$(gh release view --json tagName -q .tagName)
             fi
   
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "main") || "${{ inputs.env }}" == "homolog" ]]; then
@@ -59,6 +60,7 @@
   
             if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" ]]; then
               sandbox="true"
+              tag=${{ inputs.env }}-rc$time
             fi
   
             if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix == "true" ]]; then
@@ -75,3 +77,5 @@
             echo "Production: $production"
             echo "IsHotfix: $isHotFix"
             echo "Tag: $tag"
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

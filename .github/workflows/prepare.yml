@@ -60,7 +60,7 @@
   
             if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" ]]; then
               sandbox="true"
-              tag=${{ inputs.env }}-rc$time
+              tag=$tag-rc$time
             fi
   
             if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix == "true" ]]; then

@@ -31,6 +31,7 @@ categories:
       - "☁️ CI"
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&'
+version-template: $COMPLETE
 version-resolver:
   major:
     labels:

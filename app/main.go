@@ -5,6 +5,6 @@ import "fmt"
 func main() {
 	fmt.Println("uai")
 	fmt.Println("trem")
-	fmt.Println("opaaaaa")
+	fmt.Println("opaaaaaa")
 	return
 }

@@ -1,10 +1,5 @@
 name: Deploy
 on:
-  release:
-    types: [published, released]
-  pull_request:
-    types:
-      - closed
   workflow_dispatch:
     inputs:
       env:

@@ -15,6 +15,9 @@ on:
           - homolog
           - sandbox
 
+permissions:
+  contents: write
+
 jobs:
   prepare:
     name: Prepare

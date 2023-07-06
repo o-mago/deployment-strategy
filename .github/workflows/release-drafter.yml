@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - main
 
 permissions:
   contents: read
@@ -15,5 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v5
+        with:
+          publish: github.base_ref == main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

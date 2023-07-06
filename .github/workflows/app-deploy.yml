@@ -1,5 +1,10 @@
 name: Deploy
 on:
+  release:
+    types: [published, released]
+  pull_request:
+    types:
+      - closed
   workflow_dispatch:
     inputs:
       env:
@@ -19,8 +24,8 @@ jobs:
         github.event_name == 'release' ||
         github.event_name == 'workflow_dispatch' ||
         (github.event_name == 'pull_request' && github.event.pull_request.merged == true &&
-          (github.base_ref == 'main' && github.head_ref != 'auto-hotfix') ||
-          (github.base_ref == 'production' && github.head_ref != 'main')
+          (github.base_ref == 'develop' && github.head_ref != 'auto-hotfix') ||
+          (github.base_ref == 'main' && github.head_ref != 'develop')
         )
       )
     uses: ./.github/workflows/prepare.yml
@@ -62,7 +67,7 @@ jobs:
   production:
     name: Production
     runs-on: ubuntu-latest
-    needs: [prepare, build]
+    needs: [prepare, build, sandbox]
     if: needs.prepare.outputs.production == 'true'
     steps:
       - name: Deploy Prod
@@ -70,7 +75,7 @@ jobs:
         run: |
           echo "deploy prod ${{ needs.prepare.outputs.tag }}"
 
-  after-prod-deploy:
+  after-release:
     name: Update prod branch (prod deploy)
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
@@ -83,15 +88,15 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git checkout production
+          git checkout main
           git pull
-          git merge origin/main --ff-only
+          git merge origin/develop --ff-only
           git push
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   after-hotfix:
-    name: Update main branch (hotfix)
+    name: Update develop branch (hotfix)
     runs-on: ubuntu-latest
     needs: [prepare, build, production]
     if: github.ref_name == 'production'
@@ -99,13 +104,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Create PR to update main branch
+      - name: Create PR to update develop branch
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git checkout production
+          git checkout main
           git checkout -b auto-hotfix
           git push origin auto-hotfix
-          gh pr create --title "[Hotfix] prod -> main" --body "Merges prod hotfix to main branch" --base main --head auto-hotfix --label "🔥 Hotfix" --label "🤖 Bot"
+          gh pr create --title "[Hotfix] main -> develop" --body "Merges prod hotfix to develop branch" --base develop --head auto-hotfix --label "🔥 Hotfix"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

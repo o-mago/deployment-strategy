@@ -32,7 +32,6 @@ categories:
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&'
 include-pre-releases: true
-commitish: main
 version-resolver:
   major:
     labels:

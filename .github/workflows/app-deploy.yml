@@ -95,6 +95,8 @@ jobs:
           git pull
           git merge origin/develop --ff-only
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   after-hotfix:
     name: Update develop branch

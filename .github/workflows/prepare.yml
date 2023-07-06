@@ -58,7 +58,7 @@
               tag=$tag-rc$short_sha
             fi
   
-            if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "false") || $isHotFix == "true" ]]; then
+            if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "false") || "${{ github.ref_name }}" == "main" ]]; then
               production="true"
             fi
   

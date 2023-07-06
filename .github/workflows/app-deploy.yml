@@ -87,7 +87,7 @@ jobs:
       - name: Create PR to update main branch
         run: |
           git config user.name deploy-app-mago[bot]
-          git config user.email 357267+deploy-app-mago[bot]@users.noreply.github.com
+          git config user.email 138800405+deploy-app-mago[bot]@users.noreply.github.com
           git checkout main
           git pull
           git merge origin/develop --ff-only

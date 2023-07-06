@@ -1,15 +1,15 @@
 name: Release Drafter
 on:
-  push:
-    branches:
-      - develop
-      - main
+  pull_request:
+    types:
+      - closed
 
 permissions:
   contents: read
 
 jobs:
   update_release_draft:
+    if: github.event.pull_request.merged == true && (github.base_ref == 'main' || github.base_ref == 'develop')
     permissions:
       contents: write
       pull-requests: write
@@ -17,6 +17,6 @@ jobs:
     steps:
       - uses: release-drafter/release-drafter@v5
         with:
-          publish: github.base_ref == main
+          publish: github.base_ref == 'main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

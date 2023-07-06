@@ -93,10 +93,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
       - name: Create PR to update main branch
         run: |
-          git config --global user.name deploy-app-mago[bot]
-          git config --global user.email 138800405+deploy-app-mago[bot]@users.noreply.github.com
           git checkout main
           git pull
           git merge origin/develop --ff-only

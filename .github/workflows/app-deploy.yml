@@ -84,6 +84,12 @@ jobs:
     needs: [prepare, build, production]
     if: github.event.action == 'released'
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: tibdex/github-app-token@v1.8.0
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -96,7 +102,7 @@ jobs:
           git merge origin/develop --ff-only
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
   after-hotfix:
     name: Update develop branch

@@ -2,6 +2,7 @@ name: Release Drafter
 on:
   push:
     branches:
+      - develop
       - main
 
 permissions:
@@ -15,5 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v5
+        with:
+          publish: github.base_ref == main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -18,8 +18,11 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo $github.base_ref
       - uses: release-drafter/release-drafter@v5
         with:
-          publish: github.base_ref == 'main'
+          publish: ${{ github.base_ref == 'main' }}
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

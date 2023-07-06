@@ -67,7 +67,7 @@ jobs:
   production:
     name: Production
     runs-on: ubuntu-latest
-    needs: [prepare, build, sandbox]
+    needs: [prepare, build]
     if: needs.prepare.outputs.production == 'true'
     steps:
       - name: Deploy Prod

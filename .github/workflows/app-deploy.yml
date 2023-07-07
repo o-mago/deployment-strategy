@@ -31,6 +31,7 @@ jobs:
     uses: ./.github/workflows/prepare.yml
     with:
       env: ${{ github.event.inputs.env }}
+      isHotfix: ${{ github.ref_name == 'main' }}
 
   build:
     name: Build
@@ -97,8 +98,6 @@ jobs:
           git pull
           git merge origin/develop --ff-only
           git push
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
   after-hotfix:
     name: Update develop branch
@@ -118,4 +117,4 @@ jobs:
           git push origin auto-hotfix
           gh pr create --title "[Hotfix] main -> develop" --body "Merges prod hotfix to develop branch" --base develop --head auto-hotfix --label "🔥 Hotfix"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

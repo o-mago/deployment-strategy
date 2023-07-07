@@ -96,6 +96,7 @@ jobs:
       - name: Create PR to update main branch
         run: |
           git checkout main
+          git pull
           git merge origin/develop --ff-only
           git push
 
@@ -105,25 +106,16 @@ jobs:
     needs: [prepare, build, production]
     if: github.ref_name == 'main'
     steps:
-      - name: Generate a token
-        id: generate_token
-        uses: tibdex/github-app-token@v1.8.0
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ steps.generate_token.outputs.token }}
       - name: Create PR to update develop branch
         run: |
-          git checkout develop
-          git merge origin/main --ff-only
-          if ! git push; then
-            git checkout main
-            git checkout -b auto-hotfix
-            git push origin auto-hotfix
-            gh pr create --title "[Hotfix] main -> develop" --body "Merges prod hotfix to develop branch" --base develop --head auto-hotfix --label "🔥 Hotfix"
-          fi
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+          git checkout main
+          git checkout -b auto-hotfix
+          git push origin auto-hotfix
+          gh pr create --title "[Hotfix] main -> develop" --body "Merges prod hotfix to develop branch" --base develop --head auto-hotfix --label "🔥 Hotfix"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -42,7 +42,7 @@
             production="false"
             tag=${{ github.ref_name }}
             sha=${{ github.sha }}
-            short_sha=${sha::7}
+            key=${sha::7}-${{ github.run_id }}-${{ github.run_attempt }}
 
             if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
               tag=${{ inputs.env }}-$short_sha
@@ -50,16 +50,20 @@
   
             if [[ ("${{ github.event_name }}" != "workflow_dispatch" && "${{ github.ref_name }}" == "develop") || "${{ inputs.env }}" == "homolog" ]]; then
               homolog="true"
+              
+              tag=$tag-$key
             fi
   
             if [[ "${{ github.event.action }}" == "published" || "${{ inputs.env }}" == "sandbox" ]]; then
               sandbox="true"
 
-              tag=$tag-rc$short_sha
+              tag=$tag-$key
             fi
   
             if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "false") || "${{ github.ref_name }}" == "main" ]]; then
               production="true"
+
+              tag=$(gh release view --json tagName -q .tagName)
             fi
   
             echo "homolog=$homolog" >> $GITHUB_OUTPUT
@@ -72,4 +76,4 @@
             echo "Production: $production"
             echo "Tag: $tag"
           env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,8 +1,5 @@
 name: Release Drafter
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     types:
       - closed
@@ -12,17 +9,14 @@ permissions:
 
 jobs:
   draft-release:
-    if: github.ref_name == 'develop' || (github.event.pull_request.merged == true && (github.base_ref == 'main' || github.base_ref == 'develop'))
+    if: github.base_ref == 'develop' && github.head_ref != 'auto-hotfix'
     permissions:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo $github.base_ref
       - uses: release-drafter/release-drafter@v5
         with:
-          publish: ${{ github.base_ref == 'main' }}
-          prerelease: ${{ github.base_ref == 'develop' }}
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

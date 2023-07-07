@@ -7,6 +7,9 @@
         env:
           description: "Environment to deploy by workflow dispatch"
           type: string
+        isHotfix:
+          description: "Is hotfix deploy"
+          type: boolean
       outputs:
         homolog:
           description: "Boolean to activate homolog build/deploy"
@@ -31,6 +34,13 @@
         production: ${{ steps.set-vars.outputs.production }}
         tag: ${{ steps.set-vars.outputs.tag }}
       steps:
+        - uses: release-drafter/release-drafter@v5
+          id: draft-release
+          if: ${{ inputs.isHotfix }}
+          with:
+            publish: true
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/checkout@v3
           with:
             fetch-depth: 0
@@ -62,8 +72,12 @@
   
             if [[ ("${{ github.event.action }}" == "released" && "${{ github.event.release.prerelease }}" == "false") || "${{ github.ref_name }}" == "main" ]]; then
               production="true"
+            fi
 
-              tag=$(gh release view --json tagName -q .tagName)
+            if [[ "${{ inputs.isHotfix }}" == "true" ]]
+              production="true"
+              
+              tag=${{ steps.draft-release.outputs.tag_name }}
             fi
   
             echo "homolog=$homolog" >> $GITHUB_OUTPUT

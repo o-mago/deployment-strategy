@@ -9,7 +9,6 @@ permissions:
 
 jobs:
   draft-release:
-    if: github.base_ref == 'develop' && github.head_ref != 'auto-hotfix'
     permissions:
       contents: write
       pull-requests: write

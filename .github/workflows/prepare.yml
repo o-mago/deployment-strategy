@@ -39,6 +39,7 @@
           if: ${{ inputs.isHotfix }}
           with:
             publish: true
+            prerelease: false
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/checkout@v3

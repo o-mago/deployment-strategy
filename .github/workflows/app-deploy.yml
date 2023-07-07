@@ -120,9 +120,10 @@ jobs:
           git config --global user.name deploy-app-mago[bot]
           git config --global user.email 138800405+deploy-app-mago[bot]@users.noreply.github.com
           git checkout develop
-          git merge origin/main
-          if ! git push; then
-            git checkout main
+          if git merge origin/main ; then
+            git push
+          else
+            git checkout main -f
             git checkout -b auto-hotfix
             git push origin auto-hotfix
             gh pr create --title "[Hotfix] main -> develop" --body "Merges prod hotfix to develop branch" --base develop --head auto-hotfix --label "🔥 Hotfix"

@@ -1,6 +1,5 @@
 name-template: "v$RESOLVED_VERSION"
 tag-template: "v$RESOLVED_VERSION"
-prerelease: true
 categories:
   - title: "💣 Breaking Change"
     labels:

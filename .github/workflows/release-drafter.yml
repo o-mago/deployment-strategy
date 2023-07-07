@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  update_release_draft:
+  draft-release:
     if: github.ref_name == 'develop' || (github.event.pull_request.merged == true && (github.base_ref == 'main' || github.base_ref == 'develop'))
     permissions:
       contents: write

@@ -111,11 +111,11 @@ jobs:
           fetch-depth: 0
       - name: Create PR to update develop branch
         run: |
-          git config --global user.name deploy-app-mago[bot]
-          git config --global user.email 357267+deploy-app-mago[bot]@users.noreply.github.com
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
           git checkout main
           git checkout -b auto-hotfix
           git push origin auto-hotfix
           gh pr create --title "[Hotfix] main -> develop" --body "Merges prod hotfix to develop branch" --base develop --head auto-hotfix --label "🔥 Hotfix"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

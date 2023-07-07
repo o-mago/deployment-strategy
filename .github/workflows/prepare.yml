@@ -74,7 +74,7 @@
               production="true"
             fi
 
-            if [[ "${{ inputs.isHotfix }}" == "true" ]]
+            if [[ "${{ inputs.isHotfix }}" == "true" ]]; then
               production="true"
               
               tag=${{ steps.draft-release.outputs.tag_name }}

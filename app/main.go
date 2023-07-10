@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 	fmt.Println("uaii")
-	fmt.Println("trem")
+	fmt.Println("tremm")
 	fmt.Println("showw")
 	return
 }

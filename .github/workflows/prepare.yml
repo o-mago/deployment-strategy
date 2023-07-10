@@ -41,7 +41,7 @@
             publish: true
             prerelease: false
             commitish: refs/heads/main
-            config-name: release-drafter-hotfix
+            config-name: release-drafter-hotfix.yml
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/checkout@v3

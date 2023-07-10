@@ -40,6 +40,7 @@
           with:
             publish: true
             prerelease: false
+            commitish: refs/heads/main
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/checkout@v3

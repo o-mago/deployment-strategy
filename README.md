@@ -53,11 +53,8 @@ To create a new hotfix, we must:
 - It will deploy to production
 - If no conflicts are found, it will merge automatically these changes to develop branch
 - If conflicts are found, it will create a new branch and a PR pointing to `develop` in order to put the hotfix back to development **
-- Resolve the conflicts
-- MERGE THE PR WITH `Merge commit` **
+- Resolve the conflicts and merge
 
 *We create a new PR instead of merging directly to handle possible conflicts between `develop` branch and `main`, due to hotfix changes and changes inside `develop` while the hotfix was created.
-
-**This will avoid branch `main` being 1 commit ahead of `develop`. It would happen if we `Squash and merge`, because a new commit would be created only and the original hotfix commit wouldn't be merged
 
 Hotfixes will always create a new homolog deployment also at the end of the process

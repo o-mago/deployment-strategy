@@ -1,0 +1,53 @@
+name-template: "v$RESOLVED_VERSION-hotfix"
+tag-template: "v$RESOLVED_VERSION-hotfix"
+categories:
+  - title: "💣 Breaking Change"
+    labels:
+      - "💣 Breaking change"
+  - title: "🚀 Feature"
+    labels:
+      - "🚀 Feature"
+  - title: "🐛 Bugfix"
+    labels:
+      - "🐛 Bugfix"
+  - title: "🔥 Hotfix"
+    labels:
+      - "🔥 Hotfix"
+  - title: "📚 Documentation"
+    labels:
+      - "📚 Documentation"
+  - title: "🏗️ Refactor"
+    labels:
+      - "🏗️ Refactor"
+  - title: "🧪 Test"
+    labels:
+      - "🧪 Test"
+  - title: "🚨 Security"
+    labels:
+      - "🚨 Security"
+  - title: "☁️ CI"
+    labels:
+      - "☁️ CI"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: '\<*_&'
+include-pre-releases: true
+filter-by-commitish: true
+version-resolver:
+  major:
+    labels:
+      - "💣 Breaking change"
+  minor:
+    labels:
+      - "🚀 Feature"
+  patch:
+    labels:
+      - "🐛 Bugfix"
+      - "🔥 Hotfix"
+      - "📚 Documentation"
+      - "🏗️ Refactor"
+      - "🧪 Test"
+      - "🚨 Security"
+      - "☁️ CI"
+  default: patch
+template: |
+  $CHANGES

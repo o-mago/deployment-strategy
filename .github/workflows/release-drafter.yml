@@ -18,5 +18,6 @@ jobs:
         with:
           prerelease: true
           commitish: refs/heads/develop
+          config-name: release-drafter.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

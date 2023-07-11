@@ -1,5 +1,5 @@
-name-template: "v$RESOLVED_VERSION-hotfix"
-tag-template: "v$RESOLVED_VERSION-hotfix"
+name-template: "v$PREVIOUS_TAG-hotfix"
+tag-template: "v$PREVIOUS_TAG-hotfix"
 categories:
   - title: "💣 Breaking Change"
     labels:
@@ -30,7 +30,6 @@ categories:
       - "☁️ CI"
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&'
-include-pre-releases: true
 version-resolver:
   major:
     labels:

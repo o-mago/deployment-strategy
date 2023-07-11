@@ -40,7 +40,7 @@
           with:
             publish: true
             prerelease: false
-            commitish: refs/heads/develop
+            commitish: refs/heads/main
             config-name: release-drafter-hotfix.yml
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

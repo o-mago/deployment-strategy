@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: o-mago/release-drafter@add-latest
         with:
-          latest: 'false'
+          latest: 'true'
           publish: true
           commitish: refs/heads/develop
         env:

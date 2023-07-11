@@ -17,6 +17,7 @@ jobs:
       - uses: o-mago/release-drafter@add-latest
         with:
           latest: 'false'
+          publish: true
           commitish: refs/heads/develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

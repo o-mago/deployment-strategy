@@ -96,7 +96,7 @@ jobs:
       - name: Create PR to update main branch
         run: |
           git checkout main
-          git merge origin/develop --ff-only
+          git merge origin/develop
           git push
 
   after-hotfix:

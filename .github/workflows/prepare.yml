@@ -34,17 +34,8 @@
         production: ${{ steps.set-vars.outputs.production }}
         tag: ${{ steps.set-vars.outputs.tag }}
       steps:
-        # - uses: release-drafter/release-drafter@v5
-        #   id: draft-release
-        #   if: ${{ inputs.isHotfix }}
-        #   with:
-        #     publish: true
-        #     prerelease: false
-        #     commitish: refs/heads/main
-        #     config-name: release-drafter-hotfix.yml
-        #   env:
-        #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/checkout@v3
+          if: ${{ inputs.isHotfix }}
           with:
             fetch-depth: 0
             ref: main
@@ -101,5 +92,3 @@
             echo "Sandbox: $sandbox"
             echo "Production: $production"
             echo "Tag: $tag"
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

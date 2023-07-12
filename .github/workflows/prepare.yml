@@ -49,7 +49,7 @@
             fetch-depth: 0
         - run: |
             latest_tag=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 | awk '{print $3}')
-            gh release create "${latest_tag}-hotfix" --latest --notes "🔥 Hotfix"
+            gh release create "${latest_tag}-hotfix" -t "${latest_tag}-hotfix" --latest --generate-notes
             echo "tag_name=${latest_tag}-hotfix" >> $GITHUB_OUTPUT
           id: draft-release
           if: ${{ inputs.isHotfix }}

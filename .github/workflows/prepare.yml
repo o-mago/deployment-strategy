@@ -34,6 +34,9 @@
         production: ${{ steps.set-vars.outputs.production }}
         tag: ${{ steps.set-vars.outputs.tag }}
       steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
         - run: |
             latest_tag=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 | awk '{print $3}')
             gh release create "${latest_tag}-hotfix" --latest --notes "🔥 Hotfix"

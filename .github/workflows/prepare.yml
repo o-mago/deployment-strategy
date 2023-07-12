@@ -41,7 +41,7 @@
             ref: main
         - run: |
             latest_tag=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 | awk '{print $3}')
-            gh release create "${latest_tag}-hotfix" -t "${latest_tag}-hotfix" --latest --generate-notes --target main
+            gh release create "${latest_tag}-hotfix" -t "${latest_tag}-hotfix" --latest --notes "🔥 Hotfix (#${{ github.event.pull_request.number }})" --target main
             echo "tag_name=${latest_tag}-hotfix" >> $GITHUB_OUTPUT
           id: draft-release
           if: ${{ inputs.isHotfix }}

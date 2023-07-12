@@ -93,8 +93,10 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ steps.generate_token.outputs.token }}
-      - name: Create PR to update main branch
+      - name: Merge develop into main
         run: |
+          git config --global user.name deploy-app-mago[bot]
+          git config --global user.email 138800405+deploy-app-mago[bot]@users.noreply.github.com
           git checkout main
           git merge origin/develop
           git push
@@ -115,7 +117,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ steps.generate_token.outputs.token }}
-      - name: Create PR to update develop branch
+      - name: Merge main into develop
         run: |
           git config --global user.name deploy-app-mago[bot]
           git config --global user.email 138800405+deploy-app-mago[bot]@users.noreply.github.com

@@ -1,14 +1,15 @@
 name: Release Drafter
 on:
-  push:
-    branches:
-      - develop
+  pull_request:
+    types:
+      - closed
 
 permissions:
   contents: read
 
 jobs:
   draft-release:
+    if: github.event.pull_request.merged == true && github.base_ref == 'develop' && github.head_ref != 'auto-hotfix'
     permissions:
       contents: write
       pull-requests: write

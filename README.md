@@ -52,8 +52,8 @@ To create a new hotfix, we must:
 - Edit it with the info about it and merge it
 - It will deploy to production
 - If no conflicts are found, it will merge automatically these changes to develop branch
-- If conflicts are found, it will create a new branch and a PR pointing to `develop` in order to put the hotfix back to development **
-- Resolve the conflicts and merge
+- If conflicts are found, it will create a new branch and a PR pointing to `develop` in order to put the hotfix back to development *
+- Resolve the conflicts and merge with `Merge commit` option
 
 *We create a new PR instead of merging directly to handle possible conflicts between `develop` branch and `main`, due to hotfix changes and changes inside `develop` while the hotfix was created.
 

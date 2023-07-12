@@ -34,19 +34,27 @@
         production: ${{ steps.set-vars.outputs.production }}
         tag: ${{ steps.set-vars.outputs.tag }}
       steps:
-        - uses: release-drafter/release-drafter@v5
-          id: draft-release
-          if: ${{ inputs.isHotfix }}
-          with:
-            publish: true
-            prerelease: false
-            commitish: refs/heads/main
-            config-name: release-drafter-hotfix.yml
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # - uses: release-drafter/release-drafter@v5
+        #   id: draft-release
+        #   if: ${{ inputs.isHotfix }}
+        #   with:
+        #     publish: true
+        #     prerelease: false
+        #     commitish: refs/heads/main
+        #     config-name: release-drafter-hotfix.yml
+        #   env:
+        #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/checkout@v3
           with:
             fetch-depth: 0
+        - run: |
+            latest_tag=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 | awk '{print $3}')
+            gh release create "${latest_tag}-hotfix" --latest --notes "🔥 Hotfix"
+            echo "tag_name=${latest_tag}-hotfix" >> $GITHUB_OUTPUT
+          id: draft-release
+          if: ${{ inputs.isHotfix }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Set vars
           id: set-vars
           run: |

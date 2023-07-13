@@ -1,5 +1,6 @@
 # Strategy
-![schema](https://github.com/o-mago/deployment-strategy/assets/23153316/48749eed-c664-40f6-8dec-5c85fe2d0a77)
+![schema](https://github.com/o-mago/deployment-strategy/assets/23153316/87ad45ab-3cbf-42b2-b600-d19b1f8b06ce)
+
 
 
 ## About

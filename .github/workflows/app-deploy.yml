@@ -1,9 +1,9 @@
 name: Deploy
 
 run-name: >
-  (github.event.inputs.env && format('Deploy: {1}', github.event.inputs.env)) ||
-  (github.github.event.pull_request.title && format('Deploy homolog: {1}', github.github.event.pull_request.title)) ||
-  (github.event_name == 'release' && format('Deploy {1}: {2}', (github.event.action == 'released' && 'production' || 'sandbox'), github.ref_name))
+  ${{(github.event.inputs.env && format('Deploy: {1}', github.event.inputs.env))}} ||
+  ${{(github.event.pull_request.title && format('Deploy homolog: {1}', github.event.pull_request.title))}} ||
+  ${{(github.event_name == 'release' && format('Deploy {1}: {2}', (github.event.action == 'released' && 'production' || 'sandbox'), github.ref_name))}}
 
 on:
   release:

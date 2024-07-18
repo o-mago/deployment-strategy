@@ -1,5 +1,7 @@
 # Strategy
-![schema](https://github.com/o-mago/deployment-strategy/assets/23153316/853a5709-bfa1-4d9b-8756-ff8c4c5dc244)
+![schema](https://github.com/o-mago/deployment-strategy/assets/23153316/87ad45ab-3cbf-42b2-b600-d19b1f8b06ce)
+
+
 
 ## About
 This deployment strategy is based on the github releases lifecycle
@@ -32,7 +34,7 @@ It is automatically increased by the release drafter based on the tags added to 
 How to deploy to each environment
 
 ### Homolog
-- Merge a PR into our `develop` branch
+- Merge a PR into `develop` branch
 
 ### Sandbox
 - Edit release draft
@@ -52,9 +54,5 @@ To create a new hotfix, we must:
 - Edit it with the info about it and merge it
 - It will deploy to production
 - If no conflicts are found, it will merge automatically these changes to develop branch
-- If conflicts are found, it will create a new branch and a PR pointing to `develop` in order to put the hotfix back to development *
+- If conflicts are found, it will create a new branch and a PR pointing to `develop` in order to put the hotfix back to development
 - Resolve the conflicts and merge with `Merge commit` option
-
-*We create a new PR instead of merging directly to handle possible conflicts between `develop` branch and `main`, due to hotfix changes and changes inside `develop` while the hotfix was created.
-
-Hotfixes will always create a new homolog deployment also at the end of the process
